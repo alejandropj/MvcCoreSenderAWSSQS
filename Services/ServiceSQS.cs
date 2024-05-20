@@ -24,6 +24,8 @@ namespace MvcCoreSenderAWSSQS.Services
             string json = JsonConvert.SerializeObject(mensaje);
             SendMessageRequest request =
                 new SendMessageRequest(this.UrlQueue, json);
+            request.MessageGroupId = "developers";
+            request.MessageDeduplicationId = "developers" + mensaje.Email;
             SendMessageResponse response =
                 await this.clientSQS.SendMessageAsync(request);
             HttpStatusCode statusCode = response.HttpStatusCode;
